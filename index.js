@@ -415,12 +415,6 @@ app.get('/users/search/:name',async(req,res)=>{
         })
        
     
-async function startServer(){
-    await server.start();
-    server.applyMiddleware({app});//run express code
-    app.listen(port,()=>{console.log(`Server live at ${port}`);
-})
-}
 
 
 async function  StartServer(){
