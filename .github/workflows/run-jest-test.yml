@@ -3,7 +3,7 @@ name: Run Jest Tests
 on:
   push:
     branches:
-      - testing
+      - test2
 
 jobs:
   test:
