@@ -380,7 +380,7 @@ app.use('/users',UserApi)
  mongoose.connect(url).then(()=>{console.log('MongDB connected')}).catch((err)=>console.log(err));
  app.use('/author',authorApi)
  app.use('/book',bookApi)
- app.listen(port,()=>{console.log('server live')})*/
+ app.listen(port,()=>{console.log('server live')})
 
  const express=require('express')
 const mongoose = require('mongoose')
@@ -393,8 +393,8 @@ const port = 3001
 
  const url='mongodb+srv://sindhulinga18:JEdVAinM1xxzdwxv@cluster0.9x5rzyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 app.use(express.json())
-mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true}).then(()=>{console.log('MongoDB connected')})
-.catch((err)=>{console.log(err)});
+mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true}).then(()=>{})
+.catch((err)=>{});
 //start my apollo-express-server
 const server=new ApolloServer({typeDefs,resolvers});
 app.get('/users/search/:name',async(req,res)=>{
@@ -414,15 +414,37 @@ app.get('/users/search/:name',async(req,res)=>{
         }
         })
        
-    
+        app.listen(port,()=>{})
+*/
+const express = require('express');
+const mongoose = require('mongoose')
+const {ApolloServer,gql } = require('apollo-server-express');
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
+const cors = require('cors')//import cors
+const userApiFromRouter = 
+require('./routes/userRoutes') //import
+const app = express() 
+const port = 3001;
+const url= 'mongodb+srv://sindhulinga18:JEdVAinM1xxzdwxv@cluster0.9x5rzyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
+app.use(express.json())
+app.use(cors()) //using cors
+mongoose.connect(url,{useNewUrlParser:true,
+useUnifiedTopology:true})
+.then(()=>{})
+.catch((err)=>{})
 
-async function  StartServer(){
+const server = new ApolloServer({typeDefs,resolvers});
+app.use('/users',userApiFromRouter);//add router
 
+async function StartServer(){
+   await server.start();
+   server.applyMiddleware({app});
+   app.listen(port,()=>{
+    console.log('Server Live 3001');
+   })
 }
-function Testing(){
-    return 1;
-}
 
-Testing()
-StartServer()
+StartServer();
+
