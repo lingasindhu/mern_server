@@ -446,6 +446,6 @@ async function StartServer(){
    })
    return httpServer;
 }
-
+StartServer()
 
 module.exports={app,StartServer};
